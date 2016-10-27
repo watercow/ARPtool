@@ -30,3 +30,16 @@
          cmd:控制命令
          ...：接收返回结果的指针
 ### 4.字符串转换点分十进制IP函数
+####     int inet_pton(int af,const char *src,void *dst);//成功返回0，失败返回负
+         af:地址类型
+         常见参数：
+         AF_INET(IPV4)
+         AF_INET6(IPV6)
+         src:字符地址
+         dst:地址数据结构----in_addr|in6_addr
+### 5.发送数据包
+####     int sendto(socket s,const void *msg,int len, unsigned int flags,const struct sockaddr *to,int tolen);
+         成功返回数据长度m，失败返回-1
+         socket:sockfd描述符
+         msg:数据(数据缓冲区)
+         sockaddr:地址数据结构
