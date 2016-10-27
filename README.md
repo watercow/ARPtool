@@ -1,13 +1,13 @@
-# 计算机网络PBL----ARP攻击工具编写
-## arp断网攻击
+# ©计算机网络PBL----ARP攻击工具编写
+## 一.arp断网攻击
          spoof -i eth0 -t 网关 targetIP
-## arp流量转发
+## 二.arp流量转发
          echo 1 > /proc/sys/net/ipv4/i_forward
          spoof -i eth0 -t 网关 targetIP
          wireshark OR ettercap whatever
-## arp群体攻击
+## 三.arp群体攻击
          搞不定啊
-## arp编程
+## 四.arp编程
 ###   1.raw socket
 ####     int socket(int domain,int type,int protocol);//返回sockfd描述符
          domain:协议域；常见参数：AF_INET(IPV4)|AF_INET6(IPV6);原始套接字：PF_PACKET
