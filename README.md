@@ -1,8 +1,12 @@
 # 计算机网络PBL----ARP攻击工具编写
 ## arp断网攻击
-spoof -i eth0 -t 网关 targetIP
+         spoof -i eth0 -t 网关 targetIP
 ## arp流量转发
+         echo 1 > /proc/sys/net/ipv4/i_forward
+         spoof -i eth0 -t 网关 targetIP
+         wireshark OR ettercap whatever
 ## arp群体攻击
+         搞不定啊
 ## arp编程
 ###   1.raw socket
 ####     int socket(int domain,int type,int protocol);//返回sockfd描述符
@@ -21,3 +25,8 @@ spoof -i eth0 -t 网关 targetIP
          HBO(主机字节序)：根据机器而定
 ###  3.ioctl函数
 ####     int ioctl(int fd,unsigned long cmd,...);//失败返回-1
+         管理I/O通道的函数 获取设备信息
+         fd：文件描述符
+         cmd:控制命令
+         ...：接收返回结果的指针
+### 4.字符串转换点分十进制IP函数
