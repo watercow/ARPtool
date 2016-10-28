@@ -1,9 +1,9 @@
 #include <sys/socket.h>
-#include <sys/ioctl.h> /*io通道头文件*/
-#include <netinet/if_ether.h> //以太头头文件
-#include <arpa/inet.h>//网络字节序头文件
-#include <netpacket/packet.h>//网络地址头文件
-#include <net/if.h>//网络接口头文件
+#include <sys/ioctl.h>  /*io通道头文件*/
+#include <netinet/if_ether.h>  //以太头头文件
+#include <arpa/inet.h> //网络字节序头文件
+#include <netpacket/packet.h> //网络地址头文件
+#include <net/if.h> //网络接口头文件
 
 #include<string.h>
 #include<stdio.h>
@@ -41,7 +41,7 @@ void sendarp(char *eth_src_mac,char *eth_dst_mac,char *arp_src_mac,char *arp_dst
     //复制到接口函数
     memcpy(ifr.ifr_name,ifname,strlen(ifname));
 
-    ioctl(sktd,SIOCGIFINDEX,&ifr);//SIOCGIFINDEX获取接口索引
+    ioctl(skfd,SIOCGIFINDEX,&ifr);//SIOCGIFINDEX获取接口索引
     toaddr.sll_ifindex = ifr.ifr_ifindex;//获取接口索引
 
     //填充ARP包
@@ -52,17 +52,17 @@ void sendarp(char *eth_src_mac,char *eth_dst_mac,char *arp_src_mac,char *arp_dst
     //--构造ARP报文
     abuf->arp.arp_hrd = htons(ARPHRD_ETHER);//类型定义为以太
     abuf->arp.arp_pro = htons(ETHERTYPE_IP);//定义协议类型为ip
-    abuf->arp.arp_hin = ETH_ALEN;//硬件长度地址
-    abuf->arp.arp_pin = 4;//协议长度地址
+    abuf->arp.arp_hln = ETH_ALEN;//硬件长度地址
+    abuf->arp.arp_pln = 4;//协议长度地址
     abuf->arp.arp_op = htons(op==1?ARPOP_REQUEST:ARPOP_REPLY);//填充操作类型
 
     //填充发送端MAC地址和IP地址
     memcpy(abuf->arp.arp_sha,arp_src_mac,ETH_ALEN);
-    inet_pton(AF_INET,src_ip,srcIP);//填充源IP前的转换(从十进制转化为四字节)
+    inet_pton(AF_INET,src_ip,&srcIP);//填充源IP前的转换(从十进制转化为四字节)
     memcpy(abuf->arp.arp_spa,&srcIP,4);//存入缓冲区
 
     memcpy(abuf->arp.arp_tha,arp_dst_mac,ETH_ALEN);
-    inet_pton(AF_INET,dst_ip.&targetIP);//填充目的IP前的转换
+    inet_pton(AF_INET,dst_ip,&targetIP);//填充目的IP前的转换
     memcpy(abuf->arp.arp_tpa,&targetIP,4);
     //更改协议域
     toaddr.sll_family = PF_PACKET;

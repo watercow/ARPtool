@@ -15,8 +15,12 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
+private slots:
+    void on_Send_pushButton_clicked();
+
 private:
     Ui::Widget *ui;
+    void QTSTRtoMAC(QString str, char *mac);
 };
 
 #endif // WIDGET_H
